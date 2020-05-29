@@ -1,0 +1,287 @@
+﻿<Window x:Class="StyleAndTemplates.Keyboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StyleAndTemplates"
+        Title="Keyboard Training" Height="450" Width="800" ResizeMode="NoResize" 
+        Style="{DynamicResource WindowStyle}"
+        PreviewKeyDown="Window_PreviewKeyDown" 
+        PreviewKeyUp="Window_PreviewKeyUp"
+        Loaded="Window_Loaded"
+        IsTabStop="False" Icon="TrainType.png"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <!--Symbol template-->
+        <ControlTemplate TargetType="Button" x:Key="ButtonSymbol">
+            <Border CornerRadius="30" BorderBrush="Aquamarine" BorderThickness="2"
+                    MinHeight="50" MinWidth="45" Margin="2">
+                <ContentControl FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" IsTabStop="False">
+                    <ContentPresenter Content="{TemplateBinding Content}"/>
+                </ContentControl>
+            </Border>
+        </ControlTemplate>
+        <!--Function buttons-->
+        <ControlTemplate TargetType="Button" x:Key="ButtonFunction">
+            <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="2"
+                    MinHeight="50" MinWidth="10" Margin="2" >
+                <ContentControl FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" IsTabStop="False">
+                    <ContentPresenter Content="{TemplateBinding Content}"/>
+                </ContentControl>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <!--Upper panel-->
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <!--Speed part-->
+                <ColumnDefinition Width="*"/>
+                <!--Fails part-->
+                <ColumnDefinition Width="*"/>
+                <!--Difficulty part-->
+                <ColumnDefinition Width="2*"/>
+                <!--Case sensivity-->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Speed of type-->
+            <DockPanel Grid.Column="0" Margin="4">
+                <TextBlock Text="Speed:"
+                           Style="{DynamicResource TextBlockStyle}"/>
+                <TextBlock x:Name="textBlockCharsMin" Padding="5 0 5 0" FontWeight="Bold" Text="0"
+                           Style="{DynamicResource TextBlockStyle}"/>
+                <TextBlock Text="chars/min"
+                           Style="{DynamicResource TextBlockStyle}"/>
+            </DockPanel>
+            <!--Fails-->
+            <DockPanel Grid.Column="1" Margin="4">
+                <TextBlock Text="Fails:"
+                           Style="{DynamicResource TextBlockStyle}"/>
+                <TextBlock x:Name="textBlockFailsCount" Padding="5 0 0 0" Text="0" FontWeight="Bold"
+                           Style="{DynamicResource TextBlockStyle}"/>
+            </DockPanel>
+            <!--Difficulty-->
+            <DockPanel Grid.Column="2" Margin="4">
+                <TextBlock Text="Difficulty:" 
+                           Style="{DynamicResource TextBlockStyle}"/>
+                <TextBlock Padding="5 0 5 0" x:Name="textDiff" FontWeight="Bold" Text="{Binding ElementName=sliderDiff, Path=Value}"
+                           Style="{DynamicResource TextBlockStyle}"/>
+                <Slider x:Name="sliderDiff"  Minimum="5" Maximum="10" IsTabStop="False"
+                        TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"/>
+            </DockPanel>
+            <!--Case sensitive-->
+            <CheckBox Margin="4" Grid.Column="3" x:Name="checkSensitive" Content="Case sensitive" IsTabStop="False"
+                      Style="{DynamicResource CheckBoxStyle}"/>
+
+            <!--Buttons-->
+
+            <!--Theme button-->
+            <Button Grid.Row="1" Grid.Column="0" x:Name="buttonTheme" Margin="10" Content="☀ / ☾" IsTabStop="False"
+                    Click="buttonTheme_Click"
+                    Style="{DynamicResource ButtonStyle}">
+                <Button.Background>
+                    <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="LightBlue" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+
+            <Button x:Name="buttonStatistic"
+                    Grid.Row="1" Grid.Column="1"
+                    Margin="10" Style="{DynamicResource ButtonStyle}"
+                    Content ="Statistic" IsTabStop="False"
+                    Click="buttonStatistic_Click">
+                <Button.Background>
+                    <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="Yellow" Offset="0"/>
+                        <GradientStop Color="LightBlue" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+
+            <!--Start/Stop buttons-->
+            <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="buttonStart" Grid.Column="0" Margin="5" FontSize="14" Content="Start"
+                        Style="{DynamicResource ButtonStyle}" Click="Start_Click">
+                    <Button.Background>
+                        <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="Red" Offset="0"/>
+                            <GradientStop Color="Lime" Offset="0.5"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="buttonCancel" Grid.Column="1" Margin="5" FontSize="14" Content="Stop" IsTabStop="False"
+                        Style="{DynamicResource ButtonStyle}" Click="Cancel_Click">
+                    <Button.Background>
+                        <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="Lime" Offset="0"/>
+                            <GradientStop Color="Transparent" Offset="0.5"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </Grid>
+        </Grid>
+        <!--Text to cope with-->
+        <TextBlock x:Name="textBoxWorkWith"
+                   DockPanel.Dock="Top" Margin="5" MinHeight="50" VerticalAlignment="Center"
+                 FontSize="22" Background="Aquamarine" Style="{DynamicResource TextBoxStyle}"/>
+        <!--Keyboard visualiser-->
+        <Grid x:Name="gridKeyboard">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--First row-->
+            <DockPanel Grid.Row="0">
+                <Button x:Name="keyTilda" Content="`" Tag="Oem3"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumOne" Content="1" Tag="d1"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumTwo" Content="2" Tag="d2" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumThree" Content="3" Tag="d3" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumFour" Content="4" Tag="d4"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumFive" Content="5" Tag="d5"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumSix" Content="6" Tag="d6"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumSeven" Content="7" Tag="d7" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumEight" Content="8" Tag="d8"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumNine" Content="9" Tag="d9"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyNumZero" Content="0" Tag="d0"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyMinus" Content="-" Tag="OemMinus"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyEqually" Content="=" Tag="OemPlus"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyBackspace" Content="Backspace" Tag="Back"
+                        Template="{StaticResource ButtonFunction}" Style="{DynamicResource ButtonStyle}"/>
+            </DockPanel>
+            <!--Second row-->
+            <DockPanel Grid.Row="1">
+                <Button x:Name="keyTab" Content="Tab"
+                        Template="{StaticResource ButtonFunction}" MinWidth="90" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyQ" Content="q" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyW" Content="w" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyE" Content="e" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyR" Content="r" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyT" Content="t" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyY" Content="y" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyU" Content="u" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyI" Content="i" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyO" Content="o" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyP" Content="p" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyLeftBrace" Content="[" Tag="OemOpenBrackets"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyRightBrace" Content="]" Tag="Oem6" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keySlashLeft" Content="\" Tag="Oem5"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+            </DockPanel>
+            <!--Third row-->
+            <DockPanel Grid.Row="2">
+                <Button x:Name="keyCapsLock" Content="Caps Lock" Tag="Capital"
+                        Template="{StaticResource ButtonFunction}" MinWidth="120" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyA" Content="a" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyS" Content="s" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyD" Content="d" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyF" Content="f" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyG" Content="g" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyH" Content="h" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyJ" Content="j" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyK" Content="k" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyL" Content="l" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keySemicolon" Content=";" Tag="oem1" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyQuotes" Content="'" Tag="oemquotes"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyEnter" Content="Enter" Tag="return"
+                        Template="{StaticResource ButtonFunction}" MinWidth="120" Style="{DynamicResource ButtonStyle}"/>
+            </DockPanel>
+            <!--Fourth row-->
+            <DockPanel Grid.Row="3">
+                <Button x:Name="keyLeftShift" Content="Shift" Tag="leftshift"
+                        Template="{StaticResource ButtonFunction}" MinWidth="150" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyZ" Content="z" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyX" Content="x" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyC" Content="c" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyV" Content="v" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyB" Content="b" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyN" Content="n" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyM" Content="m" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyComma" Content="," Tag="oemcomma" 
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyDot" Content="." Tag="oemperiod"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keySlashRight" Content="/" Tag="oemquestion"
+                        Template="{StaticResource ButtonSymbol}" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyRightShift" Content="Shift" Tag="rightshift"
+                        Template="{StaticResource ButtonFunction}" Style="{DynamicResource ButtonStyle}"/>
+            </DockPanel>
+            <!--Fith row-->
+            <DockPanel Grid.Row="4">
+                <Button x:Name="keyLeftCtrl" Content="Ctrl" Tag="leftctrl"
+                        Template="{StaticResource ButtonFunction}" MinWidth="60" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyLeftWin" Content="Win" Tag="lwin"
+                        Template="{StaticResource ButtonFunction}" MinWidth="60" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyLeftAlt" Content="Alt" Tag="system"
+                        Template="{StaticResource ButtonFunction}" MinWidth="60" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keySpace" Content="Space" Tag="space"
+                        Template="{StaticResource ButtonFunction}" MinWidth="380" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyRightAlt" Content="Alt" Tag="system"
+                        Template="{StaticResource ButtonFunction}" MinWidth="60" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyRightWin" Content="Win" Tag="rwin"
+                        Template="{StaticResource ButtonFunction}" MinWidth="60" Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="keyRightCtrl" Content="Ctrl" Tag="rightctrl"
+                        Template="{StaticResource ButtonFunction}" Style="{DynamicResource ButtonStyle}"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>

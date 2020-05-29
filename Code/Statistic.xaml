@@ -1,0 +1,20 @@
+﻿<Window x:Class="StyleAndTemplates.Statistic"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StyleAndTemplates"
+        mc:Ignorable="d"
+        Title="Statistic" Height="300" Width="509" Icon="Statistic.png"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <DockPanel>
+        <Border BorderBrush="Yellow" BorderThickness="10">
+            <DataGrid x:Name="dataGridUserStatistic" 
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="True"
+                      CanUserReorderColumns="False"
+                      AutoGenerateColumns="True"
+                      IsReadOnly="True"/>
+        </Border>
+    </DockPanel>
+</Window>

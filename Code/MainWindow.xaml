@@ -1,0 +1,113 @@
+﻿<Window x:Class="StyleAndTemplates.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StyleAndTemplates"
+        mc:Ignorable="d"
+        Title="Authorization" Height="210" Width="400" ResizeMode="NoResize"
+        Background="Black" Icon="authorization.png" WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <!--TextBox templates-->
+        <ControlTemplate TargetType="TextBox" x:Key="TextBoxLoginFields">
+            <Border x:Name="TextBoxBorder" Margin="10"  
+                    BorderBrush="GhostWhite" BorderThickness="3"
+                    CornerRadius="5">
+                <ScrollViewer x:Name="PART_ContentHost"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter TargetName="TextBoxBorder" Property="ItemsControl.BorderBrush" Value="Yellow"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <!--Password box template-->
+        <ControlTemplate TargetType="PasswordBox" x:Key="TextBoxPassFields">
+            <Border x:Name="TextBoxBorder" Margin="10"  
+                    BorderBrush="GhostWhite" BorderThickness="3"
+                    CornerRadius="5">
+                <ScrollViewer x:Name="PART_ContentHost"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter TargetName="TextBoxBorder" Property="ItemsControl.BorderBrush" Value="Yellow"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <!--Button template-->
+        <ControlTemplate TargetType="Button" x:Key="ButtonFunctions">
+            <Border x:Name="ButtonBack" Margin="10" Background="{TemplateBinding Background}"
+                    CornerRadius="20">
+                <ContentControl x:Name="ButtonText" Margin="5" MinWidth="90"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                FontSize="14"  Foreground="GhostWhite">
+                    <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center"/>
+                </ContentControl>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="ButtonBack" Property="Background"
+                            Value="Yellow" />
+                    <Setter TargetName="ButtonText" Property="ItemsControl.Foreground"
+                            Value="Black"/>
+                    <Setter TargetName="ButtonText" Property="ItemsControl.FontWeight"
+                            Value="Bold"/>
+                    <Setter TargetName="ButtonText" Property="ItemsControl.FontSize"
+                            Value="18"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <!--Textblock styles-->
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="FontFamily" Value="Verdana"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <!--Login fields-->
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!--Username field-->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Username:"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBoxUsername"
+                     Template="{StaticResource TextBoxLoginFields}"
+                     Foreground="White" Background="Gray"/>
+            <!--Password field-->
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Password:"/>
+            <PasswordBox Grid.Row="1" Grid.Column="1" x:Name="textPassword" PasswordChar="*"
+                     Template="{StaticResource TextBoxPassFields}"
+                     Foreground="White" Background="Gray"/>
+            <!--CheckBox-->
+            <CheckBox Grid.Row="2" Grid.Column="1" x:Name="checkBoxRemember" Margin="5"
+                      Foreground="GhostWhite" FontSize="15"
+                      Content="Remember me"/>
+        </Grid>
+        <!--Log/Cancel button-->
+        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
+            <Button x:Name="buttonRegister" Content="Register"
+                    Template="{StaticResource ButtonFunctions}" Background="Olive"
+                    Click="buttonRegister_Click"/>
+            <Button x:Name="buttonLogin" Content="Log In"
+                    Template="{StaticResource ButtonFunctions}" Background="Green"
+                    Click="buttonLogin_Click"/>
+            <Button x:Name="buttonCancel" Content="Cancel"
+                    Template="{StaticResource ButtonFunctions}" Background="Red"
+                    Click="buttonCancel_Click"/>
+        </DockPanel>
+    </DockPanel>
+</Window>
